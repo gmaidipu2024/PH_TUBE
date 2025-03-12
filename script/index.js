@@ -7,11 +7,12 @@
         // get container
     const categoryContainer = document.getElementById("category-container");
     for (let cat of categories ){
-        console.log(cat);
+        // console.log(cat);
+        
         // crateElement
         const category= document.createElement("div")
         category.innerHTML= `
-        <button class="btn btn-sm"> ${cat.category}</button>
+        <button class="btn btn-sm hover:bg-[#FF1F3D] hover:text-white"> ${cat.category}</button>
             `
         // append Element 
         categoryContainer.append(category);
