@@ -15,7 +15,11 @@ function loadCategories() {
 function loadVideos() {
   fetch("https://openapi.programming-hero.com/api/phero-tube/videos")
     .then((res) => res.json())
-    .then((data) => displayVideos(data.videos));
+    .then((data) => {
+      removeActiveClass();
+      document.getElementById("btn-all").classList.add("active");
+      displayVideos(data.videos);
+    });
 };
 
     const loadCatagoriesVideos = (id)=>{
@@ -26,15 +30,45 @@ function loadVideos() {
       .then ((res)=>res.json())
       .then ((data)=>{
         removeActiveClass();
-
         const clickBtn= document.getElementById(`btn-${id}`)
         clickBtn.classList.add("active");
         displayVideos(data.category)
       })
 
-    }
+    };
+    
+const loadVideoDetails =(videoI)=>{
+  console.log(videoI);
 
+ const url= `https://openapi.programming-hero.com/api/phero-tube/video/${videoI}`;
+  fetch(url)
+  .then((res)=>res.json())
+  .then ((data)=> videoDetails(data.video))
+  
 
+};
+
+  const videoDetails =(video) =>{
+  console.log(video);
+  document.getElementById("modal_details").showModal();
+  const details =document.getElementById("details_container");
+  details.innerHTML= `
+    
+    <div class="card bg-base-100 image-full shadow-sm">
+  <figure>
+    <img
+      src="${video.thumbnail}" />
+  </figure>
+  <div class="card-body">
+    <h2 class="card-title">${video.title}</h2>
+    <p>${video.description}</p>
+    <div class="card-actions justify-end">
+      
+    </div>
+  </div>
+</div>
+  `
+  }
 
 // function
 function displayCategories(categories) {
@@ -126,6 +160,7 @@ const displayVideos = (videos) => {
             </div>
             
         </div>
+        <button onclick= loadVideoDetails('${video.video_id}') class="btn btn-wide">Show Details</button>
     </div>
             `;
     videoContainer.append(videoCard);
