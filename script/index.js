@@ -1,3 +1,11 @@
+function removeActiveClass(){
+  const activeClass = document.getElementsByClassName("active");
+
+  for(let btn of activeClass){
+    btn.classList.remove('active')
+  }
+}
+
 function loadCategories() {
   fetch("https://openapi.programming-hero.com/api/phero-tube/categories")
     .then((res) => res.json())
@@ -13,10 +21,16 @@ function loadVideos() {
     const loadCatagoriesVideos = (id)=>{
 
     const url= `https://openapi.programming-hero.com/api/phero-tube/category/${id}`
-    console.log(url)
+   
       fetch (url)
       .then ((res)=>res.json())
-      .then ((data)=>displayVideos(data.category))
+      .then ((data)=>{
+        removeActiveClass();
+
+        const clickBtn= document.getElementById(`btn-${id}`)
+        clickBtn.classList.add("active");
+        displayVideos(data.category)
+      })
 
     }
 
@@ -32,7 +46,7 @@ function displayCategories(categories) {
     // crateElement
     const category = document.createElement("div");
     category.innerHTML = `
-        <button onclick="loadCatagoriesVideos(${cat.category_id})" class="btn btn-sm hover:bg-[#FF1F3D] hover:text-white"> ${cat.category}</button>
+        <button id="btn-${cat.category_id}" onclick="loadCatagoriesVideos(${cat.category_id})" class="btn btn-sm hover:bg-[#FF1F3D] hover:text-white"> ${cat.category}</button>
             `;
     // append Element
     categoryContainer.append(category);
@@ -59,10 +73,23 @@ function displayCategories(categories) {
 // }
 const displayVideos = (videos) => {
   const videoContainer = document.getElementById("video_container");
-  videoContainer.innerText= "";
+  videoContainer.innerHTML= "";
+
+  if(videos.length == 0){
+  videoContainer.innerHTML= `
+   <div class="col-span-full flex flex-col justify-center items-center py-5">
+        <img  class="w-[120px]" src="./img/Icon.png" alt="">
+        <h2 class="text-2xl font-semibold">
+            Oops!! Sorry, There is no content here
+        </h2>
+    </div>
+  
+  `;
+  return
+  }
 
   videos.forEach((video) => {
-    console.log(video);
+    
     const videoCard = document.createElement("div");
     videoCard.innerHTML = `
 
