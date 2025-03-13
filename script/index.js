@@ -37,6 +37,7 @@ function loadVideos() {
 
     };
     
+
 const loadVideoDetails =(videoI)=>{
   console.log(videoI);
 
@@ -69,6 +70,7 @@ const loadVideoDetails =(videoI)=>{
 </div>
   `
   }
+
 
 // function
 function displayCategories(categories) {
@@ -151,7 +153,9 @@ const displayVideos = (videos) => {
                 <h2>Building a Winning </h2>
                 <p class="text-sm text-gray-800 flex gap-1">${video.authors[0].profile_name}
 
-                    <img class="w-5 h-5" src="https://img.icons8.com/?size=96&id=98A4yZTt9abw&format=png" alt=""> 
+                ${video.authors[0].verified== true ? `<img class="w-5 h-5" src="https://img.icons8.com/?size=96&id=98A4yZTt9abw&format=png" alt=""> `:``}
+
+                    
                     
                     </p>
 
